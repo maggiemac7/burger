@@ -18,13 +18,24 @@ var orm = {
     },
 
     create: function(table, cols, vals, cb) {
-        console.log(`INSERT INTO ${table} (${cols.join(',')}) VALUES (${Array.from({length: vals.length}, () => '?').join(',')}))`);
-        connection.query(`INSERT INTO ${table} (${cols.join(',')} VALUES (${Array.from({length: vals.length}, () => '?').join(',')}))`, vals, function(err, results){
+       
+        connection.query(`INSERT INTO ${table} (${cols.join(',')}) VALUES (${Array.from({length: vals.length}, () => '?').join(',')})`, vals, function(err, results){
             console.log(results, err);
             if(err) throw err;
             cb(results);
+
+            //AN ERROR IN THE SQL SYNTAX EXISTS SOMEWHERE HERE. 
         });
     },
+    delete: function(table, condition, cb) {
+        connection.query(`DELETE FROM ${table} WHERE ${condition}`, function(err, results){
+            console.log(results, err);
+            if(err) throw err;
+            cb(results);
+
+            //AN ERROR IN THE SQL SYNTAX EXISTS SOMEWHERE HERE. 
+        });
+    }
 }
 
 
